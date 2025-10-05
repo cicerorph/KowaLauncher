@@ -16,5 +16,5 @@ supportLink = "#"
 
 [ejs.welcome]
 welcomeHeader = "BEM-VINDO A KOWAMC!"
-welcomeDescription = "Our mission is to recreate the universe imagined by author George RR Martin in his fantasy series, A Song of Ice and Fire.  Through the collaborative effort of thousands of community members, we have sought to create Westeros as accurately and precisely as possible within Minecraft.  The world we are creating is yours to explore.  Journey from Dorne to Castle Black, and if you aren’t afraid, beyond the Wall itself, but best not delay.  As the words of House Stark ominously warn: Winter is Coming."
-welcomeDescCTA = "You are just a few clicks away from Westeros."
+welcomeDescription = "Este é o launcher recomendado para o uso na KowaMC"
+welcomeDescCTA = "Em alguns clicks você já estará entrando na Kowa!"
