@@ -2,7 +2,7 @@ appId: 'kowalauncher'
 productName: 'Kowa Launcher'
 artifactName: '${productName}-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2024 Daniel Scalzi'
+copyright: 'Copyright © 2024-2025 KOWAMC GAMES LTDA'
 
 asar: true
 compression: 'maximum'
@@ -39,10 +39,10 @@ mac:
 # Linux Configuration
 linux: 
   target: 'AppImage'
-  maintainer: 'Daniel Scalzi'
-  vendor: 'Daniel Scalzi'
-  synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  maintainer: 'KOWAMC GAMES LTDA'
+  vendor: 'KOWAMC GAMES LTDA'
+  synopsis: 'Launcher da KowaMC'
+  description: 'Launcher customizado da kowa.'
   category: 'Game'
 
 

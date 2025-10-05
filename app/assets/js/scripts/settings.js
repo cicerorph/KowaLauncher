@@ -1424,20 +1424,20 @@ async function prepareJavaTab(){
     populateJvmOptsLink(server)
 }
 
-/**
- * About Tab
- */
+// /**
+//  * About Tab
+//  */
 
-const settingsTabAbout             = document.getElementById('settingsTabAbout')
-const settingsAboutChangelogTitle  = settingsTabAbout.getElementsByClassName('settingsChangelogTitle')[0]
-const settingsAboutChangelogText   = settingsTabAbout.getElementsByClassName('settingsChangelogText')[0]
-const settingsAboutChangelogButton = settingsTabAbout.getElementsByClassName('settingsChangelogButton')[0]
+// const settingsTabAbout             = document.getElementById('settingsTabAbout')
+// const settingsAboutChangelogTitle  = settingsTabAbout.getElementsByClassName('settingsChangelogTitle')[0]
+// const settingsAboutChangelogText   = settingsTabAbout.getElementsByClassName('settingsChangelogText')[0]
+// const settingsAboutChangelogButton = settingsTabAbout.getElementsByClassName('settingsChangelogButton')[0]
 
-// Bind the devtools toggle button.
-document.getElementById('settingsAboutDevToolsButton').onclick = (e) => {
-    let window = remote.getCurrentWindow()
-    window.toggleDevTools()
-}
+// // Bind the devtools toggle button.
+// document.getElementById('settingsAboutDevToolsButton').onclick = (e) => {
+//     let window = remote.getCurrentWindow()
+//     window.toggleDevTools()
+// }
 
 /**
  * Return whether or not the provided version is a prerelease.
@@ -1450,27 +1450,27 @@ function isPrerelease(version){
     return preRelComp != null && preRelComp.length > 0
 }
 
-/**
- * Utility method to display version information on the
- * About and Update settings tabs.
- * 
- * @param {string} version The semver version to display.
- * @param {Element} valueElement The value element.
- * @param {Element} titleElement The title element.
- * @param {Element} checkElement The check mark element.
- */
-function populateVersionInformation(version, valueElement, titleElement, checkElement){
-    valueElement.innerHTML = version
-    if(isPrerelease(version)){
-        titleElement.innerHTML = Lang.queryJS('settings.about.preReleaseTitle')
-        titleElement.style.color = '#ff886d'
-        checkElement.style.background = '#ff886d'
-    } else {
-        titleElement.innerHTML = Lang.queryJS('settings.about.stableReleaseTitle')
-        titleElement.style.color = null
-        checkElement.style.background = null
-    }
-}
+// /**
+//  * Utility method to display version information on the
+//  * About and Update settings tabs.
+//  * 
+//  * @param {string} version The semver version to display.
+//  * @param {Element} valueElement The value element.
+//  * @param {Element} titleElement The title element.
+//  * @param {Element} checkElement The check mark element.
+//  */
+// function populateVersionInformation(version, valueElement, titleElement, checkElement){
+//     valueElement.innerHTML = version
+//     if(isPrerelease(version)){
+//         titleElement.innerHTML = Lang.queryJS('settings.about.preReleaseTitle')
+//         titleElement.style.color = '#ff886d'
+//         checkElement.style.background = '#ff886d'
+//     } else {
+//         titleElement.innerHTML = Lang.queryJS('settings.about.stableReleaseTitle')
+//         titleElement.style.color = null
+//         checkElement.style.background = null
+//     }
+// }
 
 /**
  * Retrieve the version information and display it on the UI.
@@ -1513,7 +1513,7 @@ function populateReleaseNotes(){
  * Prepare account tab for display.
  */
 function prepareAboutTab(){
-    populateAboutVersionInformation()
+    //populateAboutVersionInformation()
     populateReleaseNotes()
 }
 
@@ -1601,14 +1601,14 @@ async function prepareSettings(first = false) {
     if(first){
         setupSettingsTabs()
         initSettingsValidators()
-        prepareUpdateTab()
+        //prepareUpdateTab()
     } else {
         await prepareModsTab()
     }
     await initSettingsValues()
     prepareAccountsTab()
     await prepareJavaTab()
-    prepareAboutTab()
+    //prepareAboutTab()
 }
 
 // Prepare the settings UI on startup.

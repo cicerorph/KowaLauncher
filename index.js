@@ -220,6 +220,63 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
     msftLogoutWindow.loadURL('https://login.microsoftonline.com/common/oauth2/v2.0/logout')
 })
 
+// Console Window for Minecraft logs and metrics
+let consoleWindow = null
+
+ipcMain.on('open-console-window', () => {
+    if (consoleWindow) {
+        consoleWindow.focus()
+        return
+    }
+
+    consoleWindow = new BrowserWindow({
+        title: 'Console do Minecraft',
+        width: 900,
+        height: 600,
+        minWidth: 600,
+        minHeight: 400,
+        icon: getPlatformIcon('SealCircle'),
+        backgroundColor: '#1a1a1a',
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
+    })
+
+    const data = {
+        lang: (str, placeHolders) => LangLoader.queryEJS(str, placeHolders)
+    }
+    Object.entries(data).forEach(([key, val]) => ejse.data(key, val))
+
+    consoleWindow.loadURL(pathToFileURL(path.join(__dirname, 'app', 'console.ejs')).toString())
+    consoleWindow.removeMenu()
+
+    consoleWindow.on('closed', () => {
+        consoleWindow = null
+    })
+})
+
+// Forward console logs to console window
+ipcMain.on('console-log', (event, data) => {
+    if (consoleWindow && !consoleWindow.isDestroyed()) {
+        consoleWindow.webContents.send('console-log', data)
+    }
+})
+
+// Forward metrics to console window
+ipcMain.on('console-metrics', (event, metrics) => {
+    if (consoleWindow && !consoleWindow.isDestroyed()) {
+        consoleWindow.webContents.send('console-metrics', metrics)
+    }
+})
+
+// Forward status updates to console window
+ipcMain.on('console-status', (event, status) => {
+    if (consoleWindow && !consoleWindow.isDestroyed()) {
+        consoleWindow.webContents.send('console-status', status)
+    }
+})
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win

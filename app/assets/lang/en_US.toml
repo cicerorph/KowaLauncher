@@ -35,20 +35,20 @@ loginPasswordDisclaimer1 = "Sua senha é enviada diretamente para a Mojang e nun
 loginPasswordDisclaimer2 = "{appName} não é afiliado à Mojang AB."
 
 [ejs.loginOptions]
-loginOptionsTitle = "Login Options"
-loginWithMicrosoft = "Login with Microsoft"
-loginWithMojang = "Login with Mojang"
-loginOffline = "Play Offline"
-cancelButton = "Cancel"
+loginOptionsTitle = "Opções de Login"
+loginWithMicrosoft = "Entrar com Microsoft"
+loginWithMojang = "Entrar com Mojang"
+loginOffline = "Jogar Offline"
+cancelButton = "Cancelar"
 
 [ejs.loginOffline]
-cancelText = "Cancel"
-subheader = "OFFLINE LOGIN"
-usernameError = "* Invalid Value"
-usernamePlaceholder = "CHOOSE YOUR NICKNAME"
-loginButtonText = "PLAY"
-disclaimer1 = "Offline mode allows you to play without authentication."
-disclaimer2 = "You won't be able to play on online servers that require authentication."
+cancelText = "Cancelar"
+subheader = "LOGIN OFFLINE"
+usernameError = "* Valor Inválido"
+usernamePlaceholder = "ESCOLHA SEU NICKNAME"
+loginButtonText = "JOGAR"
+disclaimer1 = "Modo offline permite jogar sem autenticação."
+disclaimer2 = "Você não poderá jogar em servidores online que exigem autenticação."
 
 [ejs.overlay]
 serverSelectHeader = "Servidores Disponíveis"
@@ -71,11 +71,11 @@ navDone = "Concluído"
 tabAccountHeaderText = "Configurações de Conta"
 tabAccountHeaderDesc = "Adicione novas contas ou gerencie as existentes."
 microsoftAccount = "Microsoft"
-addMicrosoftAccount = "+ Add Microsoft Account"
+addMicrosoftAccount = "+ Adicionar Conta Microsoft"
 mojangAccount = "Mojang"
-addMojangAccount = "+ Add Mojang Account"
+addMojangAccount = "+ Adicionar Conta Mojang"
 offlineAccount = "Offline"
-addOfflineAccount = "+ Add Offline Account"
+addOfflineAccount = "+ Adicionar Conta Offline"
 minecraftTabHeaderText = "Configurações do Minecraft"
 minecraftTabHeaderDesc = "Opções relacionadas ao lançamento do jogo."
 gameResolutionTitle = "Resolução do Jogo"
@@ -151,30 +151,30 @@ microsoftLoginTitle = "Login Microsoft"
 microsoftLogoutTitle = "Logout Microsoft"
 
 [js.login]
-login = "LOGIN"
-loggingIn = "Logging In"
-success = "SUCCESS"
-tryAgain = "Try Again"
+login = "ENTRAR"
+loggingIn = "Fazendo login"
+success = "SUCESSO"
+tryAgain = "Tentar Novamente"
 
 [js.login.error]
-invalidValue = "* Invalid Value"
-requiredValue = "* Required"
+invalidValue = "* Valor Inválido"
+requiredValue = "* Obrigatório"
 
 [js.login.error.unknown]
-title = "Unknown Error During Login"
-desc = "An unknown error occurred. See the console for details."
+title = "Erro Desconhecido Durante o Login"
+desc = "Ocorreu um erro desconhecido. Veja o console para detalhes."
 
 [js.loginOffline]
-login = "PLAY"
-loggingIn = "Entering"
-success = "SUCCESS"
-tryAgain = "Try Again"
+login = "JOGAR"
+loggingIn = "Entrando"
+success = "SUCESSO"
+tryAgain = "Tentar Novamente"
 
 [js.loginOffline.error]
-invalidValue = "* Only letters, numbers and _ (3-16 characters)"
-requiredValue = "* Required"
-unknown = "Unknown Error"
-unknownDesc = "An error occurred while creating the offline account."
+invalidValue = "* Apenas letras, números e _ (3-16 caracteres)"
+requiredValue = "* Obrigatório"
+unknown = "Erro Desconhecido"
+unknownDesc = "Ocorreu um erro ao criar a conta offline."
 
 [js.landing.launch]
 pleaseWait = "Por favor, aguarde.."

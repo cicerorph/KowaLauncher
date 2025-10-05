@@ -7,6 +7,7 @@ const { getMojangOS, isLibraryCompatible, mcVersionAtLeast }  = require('helios-
 const { Type }              = require('helios-distribution-types')
 const os                    = require('os')
 const path                  = require('path')
+const { ipcRenderer }       = require('electron')
 
 const ConfigManager            = require('./configmanager')
 
@@ -39,6 +40,8 @@ class ProcessBuilder {
         this.usingLiteLoader = false
         this.usingFabricLoader = false
         this.llPath = null
+        this.metricsInterval = null
+        this.childProcess = null
     }
     
     /**
@@ -89,15 +92,40 @@ class ProcessBuilder {
         child.stdout.setEncoding('utf8')
         child.stderr.setEncoding('utf8')
 
+        // Abrir janela de console
+        ipcRenderer.send('open-console-window')
+        ipcRenderer.send('console-log', { message: 'Minecraft iniciado com sucesso', type: 'success' })
+        ipcRenderer.send('console-status', 'Iniciando...')
+
+        // Salvar referência do processo
+        this.childProcess = child
+
+        // Iniciar monitoramento de métricas
+        this.startMetricsMonitoring(child.pid)
+
         child.stdout.on('data', (data) => {
-            data.trim().split('\n').forEach(x => console.log(`\x1b[32m[Minecraft]\x1b[0m ${x}`))
+            data.trim().split('\n').forEach(x => {
+                console.log(`\x1b[32m[Minecraft]\x1b[0m ${x}`)
+                // Enviar log para janela de console
+                ipcRenderer.send('console-log', { message: x, type: 'minecraft' })
+            })
             
         })
         child.stderr.on('data', (data) => {
-            data.trim().split('\n').forEach(x => console.log(`\x1b[31m[Minecraft]\x1b[0m ${x}`))
+            data.trim().split('\n').forEach(x => {
+                console.log(`\x1b[31m[Minecraft]\x1b[0m ${x}`)
+                // Enviar log de erro para janela de console
+                ipcRenderer.send('console-log', { message: x, type: 'error' })
+            })
         })
         child.on('close', (code, signal) => {
             logger.info('Exited with code', code)
+            ipcRenderer.send('console-log', { message: `Minecraft encerrado com código ${code}`, type: code === 0 ? 'success' : 'error' })
+            ipcRenderer.send('console-status', code === 0 ? 'Encerrado' : 'Erro')
+            
+            // Parar monitoramento de métricas
+            this.stopMetricsMonitoring()
+            
             fs.remove(tempNativePath, (err) => {
                 if(err){
                     logger.warn('Error while deleting temp dir', err)
@@ -525,7 +553,7 @@ class ProcessBuilder {
                             val = args[i].replace(argDiscovery, tempNativePath)
                             break
                         case 'launcher_name':
-                            val = args[i].replace(argDiscovery, 'Helios-Launcher')
+                            val = args[i].replace(argDiscovery, 'Kowa-Launcher')
                             break
                         case 'launcher_version':
                             val = args[i].replace(argDiscovery, this.launcherVersion)
@@ -885,6 +913,77 @@ class ProcessBuilder {
             }
         }
         return libs
+    }
+
+    /**
+     * Start monitoring system metrics and send to console window
+     * 
+     * @param {number} pid Process ID of the Minecraft process
+     */
+    startMetricsMonitoring(pid) {
+        // Enviar métricas a cada 2 segundos
+        this.metricsInterval = setInterval(() => {
+            try {
+                const metrics = this.getSystemMetrics(pid)
+                ipcRenderer.send('console-metrics', metrics)
+                
+                // Atualizar status baseado no uso de recursos
+                if (metrics.cpu > 90 || (metrics.memory.used / metrics.memory.total) > 0.9) {
+                    ipcRenderer.send('console-status', 'Recursos Altos')
+                } else {
+                    ipcRenderer.send('console-status', 'Rodando')
+                }
+            } catch (error) {
+                logger.warn('Error collecting metrics:', error)
+            }
+        }, 2000)
+    }
+
+    /**
+     * Stop monitoring system metrics
+     */
+    stopMetricsMonitoring() {
+        if (this.metricsInterval) {
+            clearInterval(this.metricsInterval)
+            this.metricsInterval = null
+        }
+    }
+
+    /**
+     * Get current system metrics
+     * 
+     * @param {number} pid Process ID of the Minecraft process
+     * @returns {Object} System metrics including CPU and memory usage
+     */
+    getSystemMetrics(pid) {
+        const totalMem = os.totalmem()
+        const freeMem = os.freemem()
+        const usedMem = totalMem - freeMem
+        
+        // Calcular uso de CPU (aproximado)
+        const cpus = os.cpus()
+        let totalIdle = 0
+        let totalTick = 0
+        
+        cpus.forEach(cpu => {
+            for (let type in cpu.times) {
+                totalTick += cpu.times[type]
+            }
+            totalIdle += cpu.times.idle
+        })
+        
+        const idle = totalIdle / cpus.length
+        const total = totalTick / cpus.length
+        const cpuUsage = 100 - ~~(100 * idle / total)
+        
+        return {
+            memory: {
+                total: totalMem,
+                used: usedMem,
+                free: freeMem
+            },
+            cpu: cpuUsage
+        }
     }
 
 }
