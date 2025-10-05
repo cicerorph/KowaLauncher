@@ -1450,27 +1450,27 @@ function isPrerelease(version){
     return preRelComp != null && preRelComp.length > 0
 }
 
-// /**
-//  * Utility method to display version information on the
-//  * About and Update settings tabs.
-//  * 
-//  * @param {string} version The semver version to display.
-//  * @param {Element} valueElement The value element.
-//  * @param {Element} titleElement The title element.
-//  * @param {Element} checkElement The check mark element.
-//  */
-// function populateVersionInformation(version, valueElement, titleElement, checkElement){
-//     valueElement.innerHTML = version
-//     if(isPrerelease(version)){
-//         titleElement.innerHTML = Lang.queryJS('settings.about.preReleaseTitle')
-//         titleElement.style.color = '#ff886d'
-//         checkElement.style.background = '#ff886d'
-//     } else {
-//         titleElement.innerHTML = Lang.queryJS('settings.about.stableReleaseTitle')
-//         titleElement.style.color = null
-//         checkElement.style.background = null
-//     }
-// }
+/**
+ * Utility method to display version information on the
+ * About and Update settings tabs.
+ * 
+ * @param {string} version The semver version to display.
+ * @param {Element} valueElement The value element.
+ * @param {Element} titleElement The title element.
+ * @param {Element} checkElement The check mark element.
+ */
+function populateVersionInformation(version, valueElement, titleElement, checkElement){
+    valueElement.innerHTML = version
+    if(isPrerelease(version)){
+        titleElement.innerHTML = Lang.queryJS('settings.about.preReleaseTitle')
+        titleElement.style.color = '#ff886d'
+        checkElement.style.background = '#ff886d'
+    } else {
+        titleElement.innerHTML = Lang.queryJS('settings.about.stableReleaseTitle')
+        titleElement.style.color = null
+        checkElement.style.background = null
+    }
+}
 
 /**
  * Retrieve the version information and display it on the UI.
@@ -1485,7 +1485,7 @@ function populateAboutVersionInformation(){
  */
 function populateReleaseNotes(){
     $.ajax({
-        url: 'https://github.com/dscalzi/HeliosLauncher/releases.atom',
+        url: 'https://github.com/cicerorph/KowaLauncher/releases.atom',
         success: (data) => {
             const version = 'v' + remote.app.getVersion()
             const entries = $(data).find('entry')
@@ -1495,11 +1495,11 @@ function populateReleaseNotes(){
                 let id = entry.find('id').text()
                 id = id.substring(id.lastIndexOf('/')+1)
 
-                if(id === version){
+                /*if(id === version){
                     settingsAboutChangelogTitle.innerHTML = entry.find('title').text()
                     settingsAboutChangelogText.innerHTML = entry.find('content').text()
                     settingsAboutChangelogButton.href = entry.find('link').attr('href')
-                }
+                }*/
             }
 
         },
@@ -1601,7 +1601,7 @@ async function prepareSettings(first = false) {
     if(first){
         setupSettingsTabs()
         initSettingsValidators()
-        //prepareUpdateTab()
+        prepareUpdateTab()
     } else {
         await prepareModsTab()
     }
